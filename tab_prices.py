@@ -73,23 +73,43 @@ class Ui_Dialog(object):
         for item_name in source.item_names:
             self.list_items_prices.addItem(item_name)
         self.combo_category_prices.addItems(source.unique_tags)
+        
         #------------ triggers ---------------#
         self.bttn_search.clicked.connect(self.get_price)
         self.entry_search_prices.textChanged.connect(self.filterItems)
 
     def filterItems(self, text):
-            # get the number of items in the list
-            count = self.list_items_prices.count()
+        # Disable resizing of the QListWidget
+        self.list_items_prices.setUpdatesEnabled(False)
 
-            # loop through each item in the list
-            for i in range(count):
-                item = self.list_items_prices.item(i)
+        # Store the current scroll position
+        scroll_pos = self.list_items_prices.verticalScrollBar().value()
 
-                # if the text is in the item text, show the item; otherwise, hide it
-                if text.lower() in item.text().lower():
-                    item.setHidden(False)
-                else:
-                    item.setHidden(True)
+        # Get the number of items in the list
+        count = self.list_items_prices.count()
+
+        # Loop through each item in the list
+        for i in range(count):
+            item = self.list_items_prices.item(i)
+
+            # If the search text is in the item text, show the item; otherwise, hide it
+            if text.lower() in item.text().lower():
+                item.setHidden(False)
+            else:
+                item.setHidden(True)
+
+        # Restore the scroll position
+        self.list_items_prices.verticalScrollBar().setValue(scroll_pos)
+
+        # Re-enable resizing of the QListWidget
+        self.list_items_prices.setUpdatesEnabled(True)
+        self.list_items_prices.update()
+
+        # Connect to the scrollbar's valueChanged signal and update the position
+        def update_scrollbar(value):
+            self.list_items_prices.verticalScrollBar().setValue(scroll_pos)
+        self.list_items_prices.verticalScrollBar().valueChanged.connect(update_scrollbar)
+
 
     def get_price(self):
 
