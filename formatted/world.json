@@ -1,50 +1,57 @@
 [
   {
     "Index": "3003",
-    "UniqueName": "Caerleon"
-  },
-  {
-    "Index": "3005",
-    "UniqueName": "Caerleon Market"
+    "UniqueName": "Caerleon",
+    "Description": "Esta ciudad está situada en el centro del continente de Albion y es el punto de partida para muchos jugadores."
   },
   {
     "Index": "0000",
-    "UniqueName": "Thetford"
-  },
-  {
-    "Index": "0007",
-    "UniqueName": "Thetford Market"
+    "UniqueName": "Thetford",
+    "Description": "Thetford es conocida como la ciudad de los bandidos y es el hogar de los Black Market."
   },
   {
     "Index": "4000",
-    "UniqueName": "Fort Sterling"
-  },
-  {
-    "Index": "4002",
-    "UniqueName": "Fort Sterling Market"
+    "UniqueName": "Fort Sterling",
+    "Description": "Fort Sterling es una ciudad fortificada y el hogar de los Highlanders."
   },
   {
     "Index": "1000",
-    "UniqueName": "Lymhurst"
-  },
-  {
-    "Index": "1002",
-    "UniqueName": "Lymhurst Market"
+    "UniqueName": "Lymhurst",
+    "Description": "Lymhurst es conocida como la ciudad de los cultivadores y es el hogar de los Keepers."
   },
   {
     "Index": "2000",
-    "UniqueName": "Bridgewatch"
-  },
-  {
-    "Index": "2004",
-    "UniqueName": "Bridgewatch Market"
+    "UniqueName": "Bridgewatch",
+    "Description": "Bridgewatch es conocida como la ciudad del comercio y es el hogar de los Merchants."
   },
   {
     "Index": "3004",
-    "UniqueName": "Martlock"
+    "UniqueName": "Martlock",
+    "Description": "Martlock es conocida como la ciudad de los cazadores y es el hogar de los Royals."
   },
   {
-    "Index": "3008",
-    "UniqueName": "Martlock Market"
+    "Index": "0004",
+    "UniqueName": "Swamp Cross",
+    "Description": "Swamp Cross es una pequeña ciudad ubicada en las marismas."
+  },
+  {
+    "Index": "2002",
+    "UniqueName": "Steppe Cross",
+    "Description": "Steppe Cross es una pequeña ciudad ubicada en las estepas."
+  },
+  {
+    "Index": "3002",
+    "UniqueName": "Highland Cross",
+    "Description": "Highland Cross es una pequeña ciudad ubicada en las montañas."
+  },
+  {
+    "Index": "1006",
+    "UniqueName": "Forest Cross",
+    "Description": "Forest Cross es una pequeña ciudad ubicada en el bosque."
+  },
+  {
+    "Index": "4006",
+    "UniqueName": "Mountain Cross",
+    "Description": "Mountain Cross es una pequeña ciudad ubicada en las montañas."
   }
 ]
