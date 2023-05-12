@@ -1,4 +1,4 @@
-from tab_precios import Ui_Dialog as tb_p
+# from tab_precios import Ui_Tab3 as tb_p
 import requests
 from pymongo import MongoClient
 from decouple import config
