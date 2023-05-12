@@ -4,8 +4,8 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 import logic as source
 import requests
 
-class Ui_Tab1(object):
-    def setupUiTab1(self, Dialog):
+class Ui_Dialog(object):
+    def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
         Dialog.resize(705, 388)
         font = QtGui.QFont()
@@ -195,7 +195,7 @@ if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)
     w = QtWidgets.QMainWindow()
-    ui = Ui_Tab1()
-    ui.setupUiTab1(w)
+    ui = Ui_Dialog()
+    ui.setupUi(w)
     w.show()
     sys.exit(app.exec_())
