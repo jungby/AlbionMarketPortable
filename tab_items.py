@@ -102,7 +102,15 @@ class Ui_Dialog(object):
             item_name = item_info['name']
             item_text = f"{item_name} ({item_unique_name})"
             self.list_items.addItem(item_text)
+        self.combo_category.addItem('Any')
         self.combo_category.addItems(source.unique_tags)
+
+
+        def combo_changed():
+            tag_selected = self.combo_category.currentText().lower()
+            filter_items()
+
+        self.combo_category.currentIndexChanged.connect(combo_changed)
         
         def filter_items():
             # Get the text entered in the QLineEdit
@@ -117,15 +125,33 @@ class Ui_Dialog(object):
             # Iterate over all items in the QListWidget
             for row in range(self.list_items.count()):
                 item = self.list_items.item(row)
-
+                item_name2 = item.text()
                 # Get the item text
                 item_text = item.text().lower()
-
-                # If the search text is in the item text, show the item; otherwise, hide it
-                if search_text in item_text:
-                    item.setHidden(False)
+                # Retrieve item information from dictionary using Name
+                # Split item_name into its name and unique name components
+                if item_name2.count('(') == 2:
+                    item_name2, item_unique_name = item_name2.rsplit(' (', 1)
                 else:
-                    item.setHidden(True)
+                    item_name2, item_unique_name = item_name2.split(' (', 1)
+
+                item_unique_name = item_unique_name[:-1]
+                item_info = source.item_sp_dict.get(item_unique_name)
+                if item_info is not None:
+                    # Get the item's description and image URL from the dictionary
+                    tag = item_info['tag']
+                    # If the search text is in the item text, show the item; otherwise, hide it
+                    if (self.combo_category.currentText() != 'Any'):
+                        if (search_text in item_text) and (tag == self.combo_category.currentText()):
+                            item.setHidden(False)
+                        else:
+                            item.setHidden(True)
+
+                    else:
+                        if (search_text in item_text):
+                            item.setHidden(False)
+                        else:
+                            item.setHidden(True)
 
             # Re-enable resizing of the QListWidget
             self.list_items.setUpdatesEnabled(True)
@@ -135,7 +161,7 @@ class Ui_Dialog(object):
             def update_scrollbar(value):
                 self.list_items.verticalScrollBar().setValue(scroll_pos)
             self.list_items.verticalScrollBar().valueChanged.connect(update_scrollbar)
-
+ 
         # Connect the filter_items function to the textChanged signal of the QLineEdit
         self.entry_search.textChanged.connect(filter_items)
 
@@ -149,12 +175,17 @@ class Ui_Dialog(object):
 
             # Retrieve item information from dictionary using Name
             # Split item_name into its name and unique name components
-            item_name, item_unique_name = item_name.split(' (')
+            if item_name.count('(') == 2:
+                item_name, item_unique_name = item_name.rsplit(' (', 1)
+            else:
+                item_name, item_unique_name = item_name.split(' (', 1)
+
             item_unique_name = item_unique_name[:-1]
             item_info = source.item_sp_dict.get(item_unique_name)
 
             if item_info is not None:
                 # Get the item's description and image URL from the dictionary
+                tag = item_info['tag']
                 description = item_info['description']
                 image_url = item_info['image']
 

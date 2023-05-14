@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+import logic as source
 
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
@@ -82,9 +83,91 @@ class Ui_Dialog(object):
         self.lb_description_city.setObjectName("lb_description_city")
         self.tabWidget.addTab(self.tab_cities, "")
 
+        #------------ don't touch ------------#
         self.retranslateUi(Dialog)
         self.tabWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Dialog)
+
+        #------------ before blowing it up ---------------#
+        for city_unique_name, city_info in sorted(source.city_sp_dict.items()):
+            city_text = f"{city_unique_name}"
+            self.list_cities.addItem(city_text)
+
+        def filter_cities():
+            # Get the text entered in the QLineEdit
+            search_text = self.entry_search_city.text().lower()
+
+            # Disable resizing of the QListWidget
+            self.list_cities.setUpdatesEnabled(False)
+
+            # Store the current scroll position
+            scroll_pos = self.list_cities.verticalScrollBar().value()
+
+            # Iterate over all items in the QListWidget
+            for row in range(self.list_cities.count()):
+                city = self.list_cities.item(row)
+
+                # Get the item text
+                city_text = city.text().lower()
+
+                # If the search text is in the item text, show the item; otherwise, hide it
+                if search_text in city_text:
+                    city.setHidden(False)
+                else:
+                    city.setHidden(True)
+
+            # Re-enable resizing of the QListWidget
+            self.list_cities.setUpdatesEnabled(True)
+            self.list_cities.update()
+
+            # Connect to the scrollbar's valueChanged signal and update the position
+            def update_scrollbar(value):
+                self.list_cities.verticalScrollBar().setValue(scroll_pos)
+            self.list_cities.verticalScrollBar().valueChanged.connect(update_scrollbar)
+
+        # Connect the filter_cities function to the textChanged signal of the QLineEdit
+        self.entry_search_city.textChanged.connect(filter_cities)
+
+        
+        def show_details():
+            # Get the index of the currently selected city in the list
+            index = self.list_cities.currentRow()
+
+            # Get the text of the currently selected city
+            city_name = self.list_cities.item(index).text()
+
+            # Retrieve city information from dictionary using Name
+            city_info = source.city_sp_dict.get(city_name)
+
+            if city_info is not None:
+                # Get the city's description and image URL from the dictionary
+                description = city_info['description']
+                # image_url = city_info['image']
+
+                # Update the QLabel widgets with the city's name, description, and image
+                self.lb_name_city.setText(city_name)
+                self.lb_description_city.setText(description)
+
+                # # Download the image data from the URL
+                # response = requests.get(image_url)
+                # pixmap = None
+
+                # if response.status_code == 200:
+                #     # Convert the image data into a QPixmap object
+                #     pixmap = QtGui.QPixmap()
+                #     pixmap.loadFromData(response.content)
+
+                #     # Update the QLabel widgets with the item's name, description, and image
+                #     self.lb_name.setText(city_name)
+                #     self.lb_description.setText(description)
+
+                #     self.lb_img.clear()
+                #     self.lb_img.setPixmap(pixmap)
+                # else:
+                #     print("Failed to load image for item:", city_name)
+
+        # Connect the show_details function to the currentRowChanged signal of the QListWidget
+        self.list_cities.currentRowChanged.connect(show_details)
 
     def retranslateUi(self, Dialog):
         _translate = QtCore.QCoreApplication.translate
@@ -96,6 +179,7 @@ class Ui_Dialog(object):
         self.lb_name_city.setText(_translate("Dialog", "TextLabel"))
         self.lb_description_city.setText(_translate("Dialog", "TextLabel"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_cities), _translate("Dialog", "Ciudades"))
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

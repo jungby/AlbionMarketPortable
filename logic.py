@@ -11,6 +11,7 @@ db = client['AlbionMarketplace']
 
 items = db['items']
 world = db['world']
+
 # Get a list of all city names from the "world" collection
 city_names = []
 for city_doc in db.world.find():
@@ -30,11 +31,23 @@ for item_sp_doc in db.items.find():
     item_name = item_sp_doc['Name']
     item_description = item_sp_doc['Description']
     item_image = item_sp_doc['ImageURL']
+    item_tag = item_sp_doc['tags'][0]
 
     item_sp_dict[item_unique_name] = {
         'name': item_name,
         'description': item_description,
-        'image': item_image
+        'image': item_image,
+        'tag': item_tag
+    }
+
+# Create a dictionary of city details, using the city's name as the key
+city_sp_dict = {}
+for city_sp_doc in db.world.find():
+    city_unique_name = city_sp_doc['UniqueName']
+    city_description = city_sp_doc['Description']
+
+    city_sp_dict[city_unique_name] = {
+        'description': city_description
     }
 
 unique_tags = items.distinct("tags")
