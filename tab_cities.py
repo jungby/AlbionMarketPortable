@@ -38,7 +38,7 @@ class Ui_Dialog(object):
         self.lb_staticname_city.setGeometry(QtCore.QRect(10, 100, 81, 16))
         font = QtGui.QFont()
         font.setFamily("Ubuntu")
-        font.setPointSize(14)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.lb_staticname_city.setFont(font)
@@ -47,7 +47,7 @@ class Ui_Dialog(object):
         self.lb_staticdescription_city.setGeometry(QtCore.QRect(10, 160, 101, 31))
         font = QtGui.QFont()
         font.setFamily("Ubuntu")
-        font.setPointSize(12)
+        font.setPointSize(10)
         font.setBold(True)
         font.setWeight(75)
         self.lb_staticdescription_city.setFont(font)
@@ -56,7 +56,7 @@ class Ui_Dialog(object):
         self.lb_details_city.setGeometry(QtCore.QRect(10, 60, 301, 20))
         font = QtGui.QFont()
         font.setFamily("Ubuntu")
-        font.setPointSize(14)
+        font.setPointSize(12)
         font.setBold(True)
         font.setWeight(75)
         self.lb_details_city.setFont(font)
@@ -66,7 +66,7 @@ class Ui_Dialog(object):
         self.lb_name_city.setGeometry(QtCore.QRect(10, 120, 301, 31))
         font = QtGui.QFont()
         font.setFamily("Ubuntu")
-        font.setPointSize(14)
+        font.setPointSize(12)
         self.lb_name_city.setFont(font)
         self.lb_name_city.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.lb_name_city.setWordWrap(True)
@@ -75,7 +75,7 @@ class Ui_Dialog(object):
         self.lb_description_city.setGeometry(QtCore.QRect(10, 190, 301, 111))
         font = QtGui.QFont()
         font.setFamily("Ubuntu")
-        font.setPointSize(12)
+        font.setPointSize(10)
         self.lb_description_city.setFont(font)
         self.lb_description_city.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignTop)
         self.lb_description_city.setWordWrap(True)
@@ -146,24 +146,6 @@ class Ui_Dialog(object):
                 # Update the QLabel widgets with the city's name, description, and image
                 self.lb_name_city.setText(city_name)
                 self.lb_description_city.setText(description)
-
-                # # Download the image data from the URL
-                # response = requests.get(image_url)
-                # pixmap = None
-
-                # if response.status_code == 200:
-                #     # Convert the image data into a QPixmap object
-                #     pixmap = QtGui.QPixmap()
-                #     pixmap.loadFromData(response.content)
-
-                #     # Update the QLabel widgets with the item's name, description, and image
-                #     self.lb_name.setText(city_name)
-                #     self.lb_description.setText(description)
-
-                #     self.lb_img.clear()
-                #     self.lb_img.setPixmap(pixmap)
-                # else:
-                #     print("Failed to load image for item:", city_name)
 
         # Connect the show_details function to the currentRowChanged signal of the QListWidget
         self.list_cities.currentRowChanged.connect(show_details)

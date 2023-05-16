@@ -102,7 +102,6 @@ class Ui_Dialog(object):
             item_name = item_info['name']
             item_text = f"{item_name} ({item_unique_name})"
             self.list_items.addItem(item_text)
-        self.combo_category.addItem('Any')
         self.combo_category.addItems(source.unique_tags)
 
 
@@ -157,11 +156,10 @@ class Ui_Dialog(object):
             self.list_items.setUpdatesEnabled(True)
             self.list_items.update()
 
-            # Connect to the scrollbar's valueChanged signal and update the position
-            def update_scrollbar(value):
-                self.list_items.verticalScrollBar().setValue(scroll_pos)
-            self.list_items.verticalScrollBar().valueChanged.connect(update_scrollbar)
- 
+            # Set the scroll position to the top of the list
+            self.list_items.verticalScrollBar().setValue(0)
+            
+
         # Connect the filter_items function to the textChanged signal of the QLineEdit
         self.entry_search.textChanged.connect(filter_items)
 

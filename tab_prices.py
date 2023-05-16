@@ -74,42 +74,51 @@ class Ui_Dialog(object):
             self.list_items_prices.addItem(item_name)
         self.combo_category_prices.addItems(source.unique_tags)
         
+        def redirectFilter():
+            filterItems()
+
         #------------ triggers ---------------#
         self.bttn_search.clicked.connect(self.get_price)
-        self.entry_search_prices.textChanged.connect(self.filterItems)
+        self.entry_search_prices.textChanged.connect(redirectFilter)
+        self.combo_category_prices.currentIndexChanged.connect(redirectFilter)
 
-    def filterItems(self, text):
-        # Disable resizing of the QListWidget
-        self.list_items_prices.setUpdatesEnabled(False)
+        def filterItems():
+            # Get the text entered in the QLineEdit
+            search_text = self.entry_search_prices.text().lower()
+            # Disable resizing of the QListWidget
+            self.list_items_prices.setUpdatesEnabled(True)
+            self.list_items_prices.update()
 
-        # Store the current scroll position
-        scroll_pos = self.list_items_prices.verticalScrollBar().value()
 
-        # Get the number of items in the list
-        count = self.list_items_prices.count()
+            # Get the number of items in the list
+            count = self.list_items_prices.count()
 
-        # Loop through each item in the list
-        for i in range(count):
-            item = self.list_items_prices.item(i)
+            # Loop through each item in the list
+            for i in range(count):
+                item = self.list_items_prices.item(i)
+                item_unique_name = item.text()
+                item_info = source.item_sp_dict.get(item_unique_name)
+                if item_info is not None:
+                    # Get the item's description and image URL from the dictionary
+                    tag = item_info['tag']
+                    if (self.combo_category_prices.currentText() != 'Any'):
+                        # If the search text is in the item text, show the item; otherwise, hide it
+                        if (search_text in item.text().lower()) and (tag == self.combo_category_prices.currentText()):
+                            item.setHidden(False)
+                        else:
+                            item.setHidden(True)
 
-            # If the search text is in the item text, show the item; otherwise, hide it
-            if text.lower() in item.text().lower():
-                item.setHidden(False)
-            else:
-                item.setHidden(True)
+                    else:
+                        if (search_text in item.text().lower()):
+                            item.setHidden(False)
+                        else:
+                            item.setHidden(True)
 
-        # Restore the scroll position
-        self.list_items_prices.verticalScrollBar().setValue(scroll_pos)
+            # Re-enable resizing of the QListWidget
+            self.list_items_prices.setUpdatesEnabled(True)
+            self.list_items_prices.update()
 
-        # Re-enable resizing of the QListWidget
-        self.list_items_prices.setUpdatesEnabled(True)
-        self.list_items_prices.update()
-
-        # Connect to the scrollbar's valueChanged signal and update the position
-        def update_scrollbar(value):
-            self.list_items_prices.verticalScrollBar().setValue(scroll_pos)
-        self.list_items_prices.verticalScrollBar().valueChanged.connect(update_scrollbar)
-
+            self.list_items_prices.verticalScrollBar().setValue(0)
 
     def get_price(self):
 

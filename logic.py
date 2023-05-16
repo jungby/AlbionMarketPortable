@@ -51,5 +51,8 @@ for city_sp_doc in db.world.find():
     }
 
 unique_tags = items.distinct("tags")
+unique_tags.append('Any')
+unique_tags.sort()
+
 item_names.sort()
 city_names.sort()
