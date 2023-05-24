@@ -10,11 +10,11 @@ client = MongoClient(config("MONGOAPI"))
 db = client['AlbionMarketplace']
 
 items = db['items']
-world = db['world']
+world = db['locations']
 
-# Get a list of all city names from the "world" collection
+# Get a list of all city names from the "locations" collection
 city_names = []
-for city_doc in db.world.find():
+for city_doc in db.locations.find():
     city_name = city_doc['UniqueName']
     city_names.append(city_name)
 
@@ -42,7 +42,7 @@ for item_sp_doc in db.items.find():
 
 # Create a dictionary of city details, using the city's name as the key
 city_sp_dict = {}
-for city_sp_doc in db.world.find():
+for city_sp_doc in db.locations.find():
     city_unique_name = city_sp_doc['UniqueName']
     city_description = city_sp_doc['Description']
 
